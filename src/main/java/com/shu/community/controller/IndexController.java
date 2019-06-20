@@ -20,7 +20,6 @@ public class IndexController{
         Cookie[] cookies = request.getCookies();
         if(cookies != null) {
             for (Cookie cookie : cookies) {
-                System.out.println(cookie);
                 if ("token02".equals(cookie.getName())) {
                     String token = cookie.getValue();
                     User user = userMapper.findUserByToken(token);
