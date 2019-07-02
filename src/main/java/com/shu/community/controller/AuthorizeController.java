@@ -2,12 +2,10 @@ package com.shu.community.controller;
 
 import com.shu.community.dto.AccessTokenDTO;
 import com.shu.community.dto.GithubUser;
-import com.shu.community.mapper.UserMapper;
 import com.shu.community.model.User;
 import com.shu.community.provider.GithubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +24,7 @@ public class AuthorizeController {
     private GithubProvider githubProvider;
 
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @Autowired
     private User user;
@@ -56,13 +54,21 @@ public class AuthorizeController {
             user.setName(githubUser.getName());
             String token02 = UUID.randomUUID().toString();
             user.setToken(token02);
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
             user.setAvatarUrl(githubUser.getAvatarUrl());
-            userMapper.insert(user);
+            userService.createOrUpdate(user);
             response.addCookie(new Cookie("token02",token02));
             return "redirect:/";
         }
+        return "redirect:/";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request,
+                         HttpServletResponse response){
+        request.getSession().removeAttribute("githubUser");
+        Cookie cookie = new Cookie("token02",null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
         return "redirect:/";
     }
 }
