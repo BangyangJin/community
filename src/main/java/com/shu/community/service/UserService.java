@@ -1,4 +1,4 @@
-package com.shu.community.controller;
+package com.shu.community.service;
 
 import com.shu.community.mapper.UserMapper;
 import com.shu.community.model.User;

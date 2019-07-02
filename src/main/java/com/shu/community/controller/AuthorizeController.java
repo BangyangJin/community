@@ -4,6 +4,7 @@ import com.shu.community.dto.AccessTokenDTO;
 import com.shu.community.dto.GithubUser;
 import com.shu.community.model.User;
 import com.shu.community.provider.GithubProvider;
+import com.shu.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
